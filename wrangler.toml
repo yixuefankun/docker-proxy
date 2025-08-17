@@ -1,0 +1,39 @@
+name = "docker-proxy"
+compatibility_date = "2023-12-01"
+
+[dev]
+ip = "0.0.0.0"
+port = 8787
+local_protocol = "http"
+
+[env.vars]
+CUSTOM_DOMAIN = "libcuda.so"
+
+[env.dev.vars]
+MODE = "debug"
+TARGET_UPSTREAM = "https://registry-1.docker.io"
+CUSTOM_DOMAIN = "exmaple.com"
+
+[env.production]
+name = "cloudflare-docker-proxy"
+routes = [
+  { pattern = "docker.137231.xyz", custom_domain = true },
+  { pattern = "quay.137231.xyz", custom_domain = true },
+  { pattern = "gcr.137231.xyz", custom_domain = true },
+  { pattern = "k8s-gcr.137231.xyz", custom_domain = true },
+  { pattern = "k8s.137231.xyz", custom_domain = true },
+  { pattern = "ghcr.137231.xyz", custom_domain = true },
+  { pattern = "cloudsmith.137231.xyz", custom_domain = true },
+]
+
+[env.production.vars]
+MODE = "production"
+TARGET_UPSTREAM = ""
+
+[env.staging]
+name = "cloudflare-docker-proxy-staging"
+route = { pattern = "docker-staging.137231.xyz", custom_domain = true }
+
+[env.staging.vars]
+MODE = "staging"
+TARGET_UPSTREAM = ""
